@@ -1,30 +1,23 @@
 <?php
-
 namespace Veneridze\Moderation;
 
-use Illuminate\Support\ServiceProvider;
 
-class ModerationServiceProvider extends ServiceProvider
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
+
+class ModerationServiceProvider extends PackageServiceProvider
 {
-    /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
-    public function boot()
+    public function configurePackage(Package $package): void
     {
-        $this->publishes([
-            __DIR__ . '/config/moderation.php' => config_path('moderation.php')
-        ], 'config');
-    }
-
-    /**
-     * Register the application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-
+        $package
+            ->name('laravel-moderation')
+            ->hasConfigFile('moderation')
+            ->publishesServiceProvider('ModerationServiceProvider')
+            ->hasInstallCommand(function (InstallCommand $command) {
+                $command
+                    ->publishConfigFile()
+                    ->copyAndRegisterServiceProviderInApp();
+            });
     }
 }

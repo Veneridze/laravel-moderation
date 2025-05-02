@@ -2,6 +2,7 @@
 
 namespace Veneridze\Moderation;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 
 trait Moderatable
@@ -198,6 +199,10 @@ trait Moderatable
         return defined('static::MODERATED_BY') ? static::MODERATED_BY : config('moderation.moderated_by_column');
     }
 
+    public function moderatedBy(): BelongsTo
+    {
+        return $this->belongsTo(config('moderation.user_model'), 'moderated_by');
+    }
     /**
      * Get the name of the "moderated at" column.
      * Append "moderated at" column to the attributes that should be converted to dates.

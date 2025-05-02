@@ -25,6 +25,7 @@ return array(
     */
     'moderated_by_column' => null,
 
+    'user_model' => App\Models\User::class,
     /*
     |--------------------------------------------------------------------------
     | Strict Moderation
