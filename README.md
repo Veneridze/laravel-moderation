@@ -21,7 +21,7 @@ Keep your application pure by preventing offensive, irrelevant, or insulting con
 First, install the package through Composer.
 
 ```php
-composer require hootlex/laravel-moderation
+composer require veneridze/laravel-moderation
 ```
 
 If you are using Laravel < 5.5, you need to add Veneridze\Moderation\ModerationServiceProvider to your `config/app.php` providers array:
