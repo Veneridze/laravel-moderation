@@ -35,13 +35,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Hootlex\\Moderation\\": "src/"
+      "Veneridze\\Moderation\\": "src/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Hootlex\\Moderation\\ModerationServiceProvider"
+        "Veneridze\\Moderation\\ModerationServiceProvider"
       ]
     }
   }
