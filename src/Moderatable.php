@@ -1,6 +1,6 @@
 <?php
 
-namespace Hootlex\Moderation;
+namespace Veneridze\Moderation;
 
 
 
@@ -204,7 +204,8 @@ trait Moderatable
      *
      * @return string
      */
-    public function getDates(){
+    public function getDates()
+    {
         return array_merge(parent::getDates(), [$this->getModeratedAtColumn()]);
     }
 }

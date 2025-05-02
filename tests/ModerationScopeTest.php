@@ -1,8 +1,8 @@
 <?php
 
-use Hootlex\Moderation\ModerationScope;
-use Hootlex\Moderation\Status;
-use Hootlex\Moderation\Tests\Post;
+use Veneridze\Moderation\ModerationScope;
+use Veneridze\Moderation\Status;
+use Veneridze\Moderation\Tests\Post;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -180,12 +180,14 @@ class ModerationScopeTest extends BaseTestCase
 
         (new Post)->newQueryWithoutScope(new ModerationScope)->approve($post->id);
 
-        $this->assertDatabaseHas('posts',
+        $this->assertDatabaseHas(
+            'posts',
             [
                 'id' => $post->id,
                 $this->status_column => Status::APPROVED,
                 $this->moderated_at_column => \Carbon\Carbon::now()
-            ]);
+            ]
+        );
     }
 
     /** @test */
@@ -195,12 +197,14 @@ class ModerationScopeTest extends BaseTestCase
 
         (new Post)->newQueryWithoutScope(new ModerationScope)->reject($post->id);
 
-        $this->assertDatabaseHas('posts',
+        $this->assertDatabaseHas(
+            'posts',
             [
                 'id' => $post->id,
                 $this->status_column => Status::REJECTED,
                 $this->moderated_at_column => \Carbon\Carbon::now()
-            ]);
+            ]
+        );
     }
 
     /** @test */
@@ -210,12 +214,14 @@ class ModerationScopeTest extends BaseTestCase
 
         (new Post)->newQueryWithoutScope(new ModerationScope)->postpone($post->id);
 
-        $this->assertDatabaseHas('posts',
+        $this->assertDatabaseHas(
+            'posts',
             [
                 'id' => $post->id,
                 $this->status_column => Status::POSTPONED,
                 $this->moderated_at_column => \Carbon\Carbon::now()
-            ]);
+            ]
+        );
     }
 
     /** @test */
@@ -231,11 +237,13 @@ class ModerationScopeTest extends BaseTestCase
         (new Post)->newQueryWithoutScope(new ModerationScope)->where('id', '=', $posts[2]->id)->reject();
 
         foreach ($posts as $post) {
-            $this->assertDatabaseHas('posts',
+            $this->assertDatabaseHas(
+                'posts',
                 [
                     'id' => $post->id,
                     $this->moderated_by_column => \Auth::user()->id
-                ]);
+                ]
+            );
         }
     }
 
@@ -252,11 +260,13 @@ class ModerationScopeTest extends BaseTestCase
         (new Post)->newQueryWithoutScope(new ModerationScope)->reject($posts[2]->id);
 
         foreach ($posts as $post) {
-            $this->assertDatabaseHas('posts',
+            $this->assertDatabaseHas(
+                'posts',
                 [
                     'id' => $post->id,
                     $this->moderated_by_column => \Auth::user()->id
-                ]);
+                ]
+            );
         }
     }
 

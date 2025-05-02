@@ -1,5 +1,5 @@
 {
-  "name": "hootlex/laravel-moderation",
+  "name": "veneridze/laravel-moderation",
   "description": "A simple Content Moderation System for Laravel 5.* that allows you to Approve or Reject resources like posts, comments, users, etc.",
   "keywords": [
     "laravel",
@@ -9,6 +9,10 @@
   ],
   "license": "MIT",
   "authors": [
+    {
+      "name": "Veneridze",
+      "email": "viacheslav.kopaev@yandex.ru"
+    },
     {
       "name": "Alex Kyriakidis",
       "email": "hootlex@icloud.com"

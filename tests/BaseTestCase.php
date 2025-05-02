@@ -1,6 +1,6 @@
 <?php
 
-use Hootlex\Moderation\Tests\Post;
+use Veneridze\Moderation\Tests\Post;
 use Tests\TestCase;
 
 
@@ -10,7 +10,7 @@ abstract class BaseTestCase extends TestCase
      * @param array $overrides
      * @param int $amount
      *
-     * @return \Hootlex\Moderation\Tests\Post
+     * @return \Veneridze\Moderation\Tests\Post
      */
     function createPost($overrides = [], $amount = 1)
     {
@@ -27,6 +27,6 @@ abstract class BaseTestCase extends TestCase
     function actingAsUser()
     {
         $userModel = config('auth.providers.users.model', config('auth.model', 'App\User'));
-        return $this->actingAs($userModel::create(['name' => 'tester', 'email' => mt_rand(1,9999).'tester@test.com', 'password' => 'password']));
+        return $this->actingAs($userModel::create(['name' => 'tester', 'email' => mt_rand(1, 9999) . 'tester@test.com', 'password' => 'password']));
     }
 }

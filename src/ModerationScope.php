@@ -1,6 +1,6 @@
 <?php
 
-namespace Hootlex\Moderation;
+namespace Veneridze\Moderation;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,6 +17,7 @@ class ModerationScope implements Scope
     protected $extensions = [
         'WithPending',
         'WithRejected',
+        'WithoutRejected',
         'WithPostponed',
         'WithAnyStatus',
         'Pending',
@@ -45,9 +46,11 @@ class ModerationScope implements Scope
 
         if ($strict) {
             $builder->where($model->getQualifiedStatusColumn(), '=', Status::APPROVED);
-        } else {
-            $builder->where($model->getQualifiedStatusColumn(), '!=', Status::REJECTED);
         }
+
+        // else {
+        //     $builder->where($model->getQualifiedStatusColumn(), '!=', Status::REJECTED);
+        // }
 
         $this->extend($builder);
     }
@@ -70,7 +73,7 @@ class ModerationScope implements Scope
 
         $bindingKey = 0;
 
-        foreach ((array)$query->wheres as $key => $where) {
+        foreach ((array) $query->wheres as $key => $where) {
             if ($this->isModerationConstraint($where, $column)) {
                 $this->removeWhere($query, $key);
 
@@ -83,7 +86,8 @@ class ModerationScope implements Scope
             // Check if where is either NULL or NOT NULL type,
             // if that's the case, don't increment the key
             // since there is no binding for these types
-            if (!in_array($where['type'], ['Null', 'NotNull'])) $bindingKey++;
+            if (!in_array($where['type'], ['Null', 'NotNull']))
+                $bindingKey++;
         }
 
     }
@@ -130,8 +134,30 @@ class ModerationScope implements Scope
         $builder->macro('withRejected', function (Builder $builder) {
             $this->remove($builder, $builder->getModel());
 
-            return $builder->whereIN($this->getStatusColumn($builder),
-                [Status::APPROVED, Status::REJECTED]);
+            return $builder->whereIN(
+                $this->getStatusColumn($builder),
+                [Status::APPROVED, Status::REJECTED]
+            );
+        });
+    }
+
+
+    /**
+     * Add the without-rejected extension to the builder.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $builder
+     *
+     * @return void
+     */
+    protected function addWithoutRejected(Builder $builder)
+    {
+        $builder->macro('withoutRejected', function (Builder $builder) {
+            $this->remove($builder, $builder->getModel());
+
+            return $builder->whereNot(
+                $this->getStatusColumn($builder),
+                Status::REJECTED
+            );
         });
     }
 
@@ -147,8 +173,10 @@ class ModerationScope implements Scope
         $builder->macro('withPostponed', function (Builder $builder) {
             $this->remove($builder, $builder->getModel());
 
-            return $builder->whereIN($this->getStatusColumn($builder),
-                [Status::APPROVED, Status::POSTPONED]);
+            return $builder->whereIN(
+                $this->getStatusColumn($builder),
+                [Status::APPROVED, Status::POSTPONED]
+            );
         });
     }
 

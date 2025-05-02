@@ -1,8 +1,8 @@
 <?php
 
-namespace Hootlex\Moderation\Tests;
+namespace Veneridze\Moderation\Tests;
 
-use Hootlex\Moderation\Moderatable;
+use Veneridze\Moderation\Moderatable;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
