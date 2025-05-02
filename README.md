@@ -171,7 +171,7 @@ Post::withRejected()->get();
 //it will return Approved and Postponed Posts
 Post::withPostponed()->get();
 
-//it will return all Posts with Rejected
+//it will return all Posts without Rejected
 Post::withoutRejected()->get();
 ```
 
